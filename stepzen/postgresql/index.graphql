@@ -1,0 +1,225 @@
+type Comment {
+  created_at: DateTime
+  id: ID!
+  mark: Mark
+    @materializer(
+      query: "getMark"
+      arguments: [{ name: "id", field: "mark_id" }]
+    )
+  mark_id: ID
+  text: String
+  username: String
+}
+
+type Kit {
+  created_at: DateTime
+  id: ID!
+  markList: [Mark] @materializer(query: "getMarkUsingKit_id")
+  topic: String
+}
+
+type Mark {
+  body: String
+  commentList: [Comment] @materializer(query: "getCommentUsingMark_id")
+  created_at: DateTime
+  id: ID!
+  image: String
+  kit: Kit
+    @materializer(query: "getKit", arguments: [{ name: "id", field: "kit_id" }])
+  kit_id: ID
+  title: String
+  username: String
+  voteList: [Vote] @materializer(query: "getVoteUsingMark_id")
+}
+
+type Vote {
+  created_at: DateTime
+  id: ID!
+  mark: Mark
+    @materializer(
+      query: "getMark"
+      arguments: [{ name: "id", field: "mark_id" }]
+    )
+  mark_id: ID
+  upvote: Boolean
+  username: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getCommentList: [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      configuration: "postgresql_config"
+    )
+  getComment(id: ID!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      configuration: "postgresql_config"
+    )
+  getKitList: [Kit]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "kit"
+      configuration: "postgresql_config"
+    )
+  getKit(id: ID!): Kit
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "kit"
+      configuration: "postgresql_config"
+    )
+  getMarkUsingKit_id(id: ID!): [Mark]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."body", T."created_at", T."id", T."image", T."kit_id", T."title", T."username"
+        FROM "public"."mark" T
+        WHERE T."kit_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getMarkList: [Mark]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "mark"
+      configuration: "postgresql_config"
+    )
+  getMark(id: ID!): Mark
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "mark"
+      configuration: "postgresql_config"
+    )
+  getCommentUsingMark_id(id: ID!): [Comment]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."id", T."mark_id", T."text", T."username"
+        FROM "public"."comment" T
+        WHERE T."mark_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getVoteUsingMark_id(id: ID!): [Vote]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."id", T."mark_id", T."upvote", T."username"
+        FROM "public"."vote" T
+        WHERE T."mark_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getVoteList: [Vote]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
+      configuration: "postgresql_config"
+    )
+  getVote(id: ID!): Vote
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertComment(
+    created_at: DateTime
+    mark_id: ID
+    username: String
+    text: String
+  ): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteComment(id: ID!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertKit(created_at: DateTime, topic: String): Kit
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "kit"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteKit(id: ID!): Kit
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "kit"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertMark(
+    created_at: DateTime
+    body: String
+    image: String
+    kit_id: ID
+    title: String
+    username: String
+  ): Mark
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "mark"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteMark(id: ID!): Mark
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "mark"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertVote(
+    created_at: DateTime
+    upvote: Boolean
+    mark_id: ID
+    username: String
+  ): Vote
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteVote(id: ID!): Vote
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}
