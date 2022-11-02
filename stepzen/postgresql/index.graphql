@@ -70,6 +70,15 @@ type Query {
       table: "kit"
       configuration: "postgresql_config"
     )
+  getKitListByTopic(topic: String!): [Kit]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+        SELECT * FROM kit WHERE topic = $1
+      """
+      configuration: "postgresql_config"
+    )
   getKit(id: ID!): Kit
     @dbquery(
       type: "postgresql"
@@ -162,7 +171,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertKit(created_at: DateTime, topic: String): Kit
+  insertKit(topic: String!): Kit
     @dbquery(
       type: "postgresql"
       schema: "public"
@@ -179,7 +188,6 @@ type Mutation {
       configuration: "postgresql_config"
     )
   insertMark(
-    created_at: DateTime
     body: String
     image: String
     kit_id: ID

@@ -4,7 +4,7 @@ import { MarkInput } from '../components'
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className='max-w-5xl my-7 mx-auto px-4'>
       <Head>
         <meta charSet='UTF-8' />
         <link rel='icon' href='/favicon.ico' />

@@ -16,7 +16,8 @@ import {
   ChevronDownIcon,
   HomeIcon,
   MagnifyingGlassIcon
-} from '@heroicons/react/20/solid'
+} from '@heroicons/react/24/solid'
+import Avatar from './Avatar'
 
 const Navbar = () => {
   const { data: session } = useSession()
@@ -83,13 +84,7 @@ const Navbar = () => {
           }}
           className='hidden lg:inline-flex items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Image
-            src='/logo-sm.png'
-            alt='Logo'
-            width={30}
-            height={30}
-            className='rounded-full'
-          />
+          <Avatar showBorder={false} />
 
           <div className='flex-1 text-xs'>
             <p className='truncate text-sm'>{session.user?.name}</p>
@@ -103,13 +98,7 @@ const Navbar = () => {
           onClick={() => signIn()}
           className='hidden lg:inline-flex grayscale items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Image
-            src='/logo-sm.png'
-            alt='Logo'
-            width={30}
-            height={30}
-            className='rounded-full'
-          />
+          <Avatar showBorder={false} />
 
           <p className='text-sm'>Sign In</p>
         </div>
