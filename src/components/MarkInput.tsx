@@ -3,13 +3,13 @@ import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { LinkIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import Avatar from './Avatar'
+import toast from 'react-hot-toast'
 
 // GraphQL imports
 import client from '../../apollo-client'
 import { useMutation } from '@apollo/client'
 import { ADD_KIT_BY_TOPIC, ADD_MARK } from '../../graphql/mutations'
-import { GET_KIT_BY_TOPIC } from '../../graphql/queries'
-import toast from 'react-hot-toast'
+import { GET_KIT_BY_TOPIC, GET_MARK_LIST } from '../../graphql/queries'
 
 type FormData = {
   markTitle: string;
@@ -22,9 +22,14 @@ const MarkInput = () => {
   const { data: session } = useSession()
   
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
-  const { register, handleSubmit, watch, formState: { errors }  } = useForm<FormData>()
+  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>()
   
-  const [addMark] = useMutation(ADD_MARK)
+  const [addMark] = useMutation(ADD_MARK, {
+    refetchQueries: [
+      GET_MARK_LIST,
+      'getMarkList'
+    ]
+  })
   const [addKitByTopic] = useMutation(ADD_KIT_BY_TOPIC)
 
   const onSubmit = async (data: FormData) => {
@@ -79,6 +84,8 @@ const MarkInput = () => {
         })
       }
 
+      reset()
+
       toast.success('New Mark left!', {
         id: notification
       })
@@ -91,9 +98,9 @@ const MarkInput = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='p-2 sticky top-16 z-50 bg-white border'>
+    <form onSubmit={handleSubmit(onSubmit)} className='p-2 bg-white border shadow-sm'>
       <div className='flex items-center space-x-3'>
-        <Avatar showBorder={true} />
+        <Avatar seed={session?.user?.name || ''} showBorder={true} />
 
         <input
           type='text'

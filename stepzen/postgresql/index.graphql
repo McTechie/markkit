@@ -100,7 +100,10 @@ type Query {
     @dbquery(
       type: "postgresql"
       schema: "public"
-      table: "mark"
+      query: """
+      SELECT * FROM mark
+      ORDER BY mark.created_at DESC
+      """
       configuration: "postgresql_config"
     )
   getMark(id: ID!): Mark

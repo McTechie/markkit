@@ -35,7 +35,7 @@ const Navbar = () => {
       </div>
 
       {/* Dropdown Menu */}
-      <div className='hidden lg:inline-flex items-center mx-7 cursor-pointer hover:shadow-sm'>
+      <div className='hidden lg:inline-flex items-center mx-7 cursor-pointer hover:shadow-sm p-2 hover:bg-gray-100 transition-all duration-300 ease-in-out'>
         <HomeIcon className='h-5 w-5' />
         <p className='ml-2 hidden lg:inline'>Home</p>
         <ChevronDownIcon className='h-5 w-5' />
@@ -84,7 +84,7 @@ const Navbar = () => {
           }}
           className='hidden lg:inline-flex items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Avatar showBorder={false} />
+          <Avatar seed={session?.user?.name || ''}  showBorder={false} />
 
           <div className='flex-1 text-xs'>
             <p className='truncate text-sm'>{session.user?.name}</p>
@@ -98,7 +98,7 @@ const Navbar = () => {
           onClick={() => signIn()}
           className='hidden lg:inline-flex grayscale items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Avatar showBorder={false} />
+          <Avatar seed='placeholder'  showBorder={false} />
 
           <p className='text-sm'>Sign In</p>
         </div>

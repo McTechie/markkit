@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { MarkInput } from '../components'
+import { Feed, MarkInput } from '../components'
 
 const Home: NextPage = () => {
   return (
@@ -12,9 +12,9 @@ const Home: NextPage = () => {
         <meta name='description' content='A microblogging web app created by McTechie using NextJS, Tailwind, Supabase, GraphQL and StepZen!' />
       </Head>
 
-      <div>
-         <MarkInput />
-      </div>
+      <MarkInput />
+      
+      <Feed />
     </div>
   )
 }
