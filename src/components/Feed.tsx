@@ -39,6 +39,7 @@ const Feed = ({ topic }: FeedProps) => {
           key={mark.id}
           mark={mark}
           showDottedBorder={true}
+          showComments={false}
         />
       ))}
     </section>

@@ -51,7 +51,7 @@ const MarkPage = () => {
 
   return (
     <div className='mx-4 md:mx-auto my-7 max-w-5xl'>
-      <MarkCard mark={mark} />
+      <MarkCard mark={mark} showComments={true} />
 
       {mark && (
         <>

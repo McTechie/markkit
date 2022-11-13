@@ -23,9 +23,10 @@ import {
 interface MarkCardProps {
   mark: Mark
   showDottedBorder?: boolean
+  showComments?: boolean
 }
 
-const MarkCard = ({ mark, showDottedBorder }: MarkCardProps) => {
+const MarkCard = ({ mark, showDottedBorder, showComments }: MarkCardProps) => {
   const { data: session } = useSession()
   
   const [vote, setVote] = useState<boolean>()
@@ -127,7 +128,7 @@ const MarkCard = ({ mark, showDottedBorder }: MarkCardProps) => {
 
   return (
     <Link href={`/mark/${mark.id}`}>
-      <div className='flex mt-6 shadow border border-gray-300 bg-white cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out rounded-tr-2xl rounded-bl-2xl'>
+      <div className={`flex mt-6 shadow border border-gray-300 bg-white cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out rounded-tr-2xl ${!showComments && 'rounded-bl-2xl'}`}>
         {/* Votes */}
         <div className={`flex flex-col items-center justify-start space-y-1 py-4 px-2 lg:px-4 text-gray-400 rounded-bl-2xl ${showDottedBorder && 'border-r-4 border-dashed'}`}>
           <ArrowUpCircleIcon
