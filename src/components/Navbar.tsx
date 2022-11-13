@@ -5,7 +5,7 @@ import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
   GlobeAsiaAustraliaIcon,
-  PlusCircleIcon, 
+  PlusCircleIcon,
   SparklesIcon,
   MegaphoneIcon,
   VideoCameraIcon
@@ -18,6 +18,7 @@ import {
   MagnifyingGlassIcon
 } from '@heroicons/react/24/solid'
 import Avatar from './Avatar'
+import Link from 'next/link'
 
 const Navbar = () => {
   const { data: session } = useSession()
@@ -25,14 +26,17 @@ const Navbar = () => {
   return (
     <nav className='sticky top-0 z-50 bg-white flex items-center px-4 py-2 shadow-sm text-gray-600'>
       {/* Navbar Brand */}
-      <div className='scale-on-hover relative w-20 h-14'>
-        <Image
-          src='/logo.png'
-          alt='Markkit'
-          fill
-          style={{ objectFit: 'contain' }}
-        />
-      </div>
+      <Link href='/'>
+        <div className='scale-on-hover relative w-20 h-14'>
+          <Image
+            src='/logo.png'
+            alt='Markkit'
+            fill
+            sizes='100%'
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+      </Link>
 
       {/* Dropdown Menu */}
       <div className='hidden lg:inline-flex items-center mx-7 cursor-pointer hover:shadow-sm p-2 hover:bg-gray-100 transition-all duration-300 ease-in-out'>
@@ -84,7 +88,7 @@ const Navbar = () => {
           }}
           className='hidden lg:inline-flex items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Avatar seed={session?.user?.name || ''}  showBorder={false} />
+          <Avatar seed={session?.user?.name || ''} showBorder={false} />
 
           <div className='flex-1 text-xs'>
             <p className='truncate text-sm'>{session.user?.name}</p>
@@ -98,7 +102,7 @@ const Navbar = () => {
           onClick={() => signIn()}
           className='hidden lg:inline-flex grayscale items-center space-x-2 border border-gray-300 rounded-md p-1 scale-on-hover'
         >
-          <Avatar seed='placeholder'  showBorder={false} />
+          <Avatar seed='placeholder' showBorder={false} />
 
           <p className='text-sm'>Sign In</p>
         </div>

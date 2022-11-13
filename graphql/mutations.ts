@@ -1,5 +1,29 @@
 import { gql } from '@apollo/client'
 
+export const INSERT_COMMENT = gql`
+  mutation insertComment($text: String!, $mark_id: ID!, $username: String!) {
+    insertComment(text: $text, mark_id: $mark_id, username: $username) {
+      created_at
+      id
+      mark_id
+      text
+      username
+    }
+  }
+`
+
+export const INSERT_VOTE = gql`
+  mutation insertVote($mark_id: ID!, $username: String!, $upvote: Boolean!) {
+    insertVote(mark_id: $mark_id, username: $username, upvote: $upvote) {
+      created_at
+      id
+      mark_id
+      username
+      upvote
+    }
+  }
+`
+
 export const ADD_MARK = gql`
   mutation AddMark(
     $body: String!,

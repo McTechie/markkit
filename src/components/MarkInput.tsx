@@ -18,7 +18,11 @@ type FormData = {
   kit: string;
 }
 
-const MarkInput = () => {
+type MarkInputProps = {
+  kit?: string;
+}
+
+const MarkInput = ({ kit }: MarkInputProps) => {
   const { data: session } = useSession()
   
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
@@ -41,7 +45,7 @@ const MarkInput = () => {
       } = await client.query({
         query: GET_KIT_BY_TOPIC,
         variables: {
-          topic: data.kit
+          topic: kit || data.kit
         }
       })
 
@@ -104,7 +108,7 @@ const MarkInput = () => {
 
         <input
           type='text'
-          placeholder={session ? 'Create a mark' : 'Sign in to create a mark'}
+          placeholder={session ? kit ? `Leave your mark in the ${kit} kit` : 'Leave your mark' : 'Sign in to leave your mark'}
           disabled={!session}
           className='flex-1 bg-gray-50 p-2 pl-5 outline-none rounded-tr-2xl rounded-bl-2xl w-full'
           {...register('markTitle', { required: true })}
@@ -129,15 +133,17 @@ const MarkInput = () => {
             />
           </div>
 
-          <div className='flex items-center px-2'>
-            <p className='min-w-[80px]'>Kit:</p>
-            <input
-              type='text'
-              className='flex-1 m-2 p-2 outline-none bg-teal-50'
-              placeholder='Which kit are you marking?'
-              {...register('kit', { required: true })}
-            />
-          </div>
+          {!kit && (
+            <div className='flex items-center px-2'>
+              <p className='min-w-[80px]'>Kit:</p>
+              <input
+                type='text'
+                className='flex-1 m-2 p-2 outline-none bg-teal-50'
+                placeholder='Which kit are you marking?'
+                {...register('kit', { required: true })}
+              />
+            </div>
+          )}
 
           {imageBoxOpen && (
             <div className='flex items-center px-2'>

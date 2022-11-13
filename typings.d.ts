@@ -1,4 +1,4 @@
-type Comment = {
+type Comments = {
   created_at: string,
   mark_id: number,
   id: number,
@@ -6,7 +6,7 @@ type Comment = {
   username: string,
 }
 
-type Vote = {
+type Votes = {
   created_at: string,
   mark_id: number,
   id: number,
@@ -29,6 +29,6 @@ type Mark = {
   title: string,
   kit_id: number,
   kit: Kit,
-  voteList: Vote[],
-  commentList: Comment[],
+  voteList: Votes[],
+  commentList: Comments[],
 }

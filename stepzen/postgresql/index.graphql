@@ -29,7 +29,7 @@ type Mark {
   kit_id: ID
   title: String
   username: String
-  voteList: [Vote] @materializer(query: "getVoteUsingMark_id")
+  voteList: [Vote] @materializer(query: "getVotesByMarkId")
 }
 
 type Vote {
@@ -96,6 +96,17 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getMarkListByTopic(topic: String!): [Mark]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT *, "mark".id as id from "mark"
+        JOIN "kit" ON "kit"."id" = "mark"."kit_id"
+        WHERE "kit"."topic" = $1
+        ORDER BY "mark"."created_at" DESC
+      """
+      configuration: "postgresql_config"
+    )
   getMarkList: [Mark]
     @dbquery(
       type: "postgresql"
@@ -113,6 +124,16 @@ type Query {
       table: "mark"
       configuration: "postgresql_config"
     )
+  getMarkById(id: ID!): Mark
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM mark
+      WHERE mark.id = $1
+      """
+      configuration: "postgresql_config"
+    )
   getCommentUsingMark_id(id: ID!): [Comment]
     @dbquery(
       type: "postgresql"
@@ -123,7 +144,7 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getVoteUsingMark_id(id: ID!): [Vote]
+  getVotesByMarkId(id: ID!): [Vote]
     @dbquery(
       type: "postgresql"
       query: """
@@ -154,7 +175,6 @@ These are some examples of mutations generated from the schema. Feel free to mod
 """
 type Mutation {
   insertComment(
-    created_at: DateTime
     mark_id: ID
     username: String
     text: String
@@ -213,7 +233,6 @@ type Mutation {
       configuration: "postgresql_config"
     )
   insertVote(
-    created_at: DateTime
     upvote: Boolean
     mark_id: ID
     username: String
