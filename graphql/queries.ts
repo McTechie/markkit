@@ -1,5 +1,16 @@
 import { gql } from '@apollo/client'
 
+// get kit with limit
+export const GET_KIT_WITH_LIMIT = gql`
+  query GetKitWithLimit($limit: Int!) {
+    getKitWithLimit(limit: $limit) {
+      created_at
+      id
+      topic
+    }
+  }
+`
+
 // get kit by topic
 export const GET_KIT_BY_TOPIC = gql`
   query GetKitByTopic($topic: String!) {

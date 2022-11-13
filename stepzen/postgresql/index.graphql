@@ -70,6 +70,16 @@ type Query {
       table: "kit"
       configuration: "postgresql_config"
     )
+  getKitWithLimit(limit: Int!): [Kit]
+    @dbquery(
+      type: "postgresql"
+      query: """
+        SELECT * FROM KIT
+        ORDER BY created_at DESC
+        LIMIT $1
+      """
+      configuration: "postgresql_config"
+    )
   getKitListByTopic(topic: String!): [Kit]
     @dbquery(
       type: "postgresql"
@@ -90,7 +100,7 @@ type Query {
     @dbquery(
       type: "postgresql"
       query: """
-      SELECT T."body", T."created_at", T."id", T."image", T."kit_id", T."title", T."username"
+        SELECT T."body", T."created_at", T."id", T."image", T."kit_id", T."title", T."username"
         FROM "public"."mark" T
         WHERE T."kit_id" = $1
       """
@@ -112,8 +122,8 @@ type Query {
       type: "postgresql"
       schema: "public"
       query: """
-      SELECT * FROM mark
-      ORDER BY mark.created_at DESC
+        SELECT * FROM mark
+        ORDER BY mark.created_at DESC
       """
       configuration: "postgresql_config"
     )
@@ -129,8 +139,8 @@ type Query {
       type: "postgresql"
       schema: "public"
       query: """
-      SELECT * FROM mark
-      WHERE mark.id = $1
+        SELECT * FROM mark
+        WHERE mark.id = $1
       """
       configuration: "postgresql_config"
     )
@@ -138,7 +148,7 @@ type Query {
     @dbquery(
       type: "postgresql"
       query: """
-      SELECT T."created_at", T."id", T."mark_id", T."text", T."username"
+        SELECT T."created_at", T."id", T."mark_id", T."text", T."username"
         FROM "public"."comment" T
         WHERE T."mark_id" = $1
       """
@@ -148,7 +158,7 @@ type Query {
     @dbquery(
       type: "postgresql"
       query: """
-      SELECT T."created_at", T."id", T."mark_id", T."upvote", T."username"
+        SELECT T."created_at", T."id", T."mark_id", T."upvote", T."username"
         FROM "public"."vote" T
         WHERE T."mark_id" = $1
       """
